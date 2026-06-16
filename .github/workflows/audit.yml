@@ -1,0 +1,19 @@
+name: Audit
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  audit:
+    name: brew audit
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Audit formula style
+        run: brew audit --strict mnemodoc-server
