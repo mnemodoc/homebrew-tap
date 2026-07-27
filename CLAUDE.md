@@ -26,10 +26,10 @@ brew audit --strict --except-cops=FormulaAudit/Homepage mnemodoc-server
 python3 scripts/update_formula.py \
   --formula Formula/mnemodoc-server.rb \
   --version 0.1.0 \
-  --darwin-arm64  aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
-  --darwin-x86-64 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb \
-  --linux-arm64   cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc \
-  --linux-x86-64  dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+  --darwin-arm64 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa \
+  --darwin-amd64 bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb \
+  --linux-arm64  cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc \
+  --linux-amd64  dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
 ```
 
 ## Architecture
@@ -37,10 +37,12 @@ python3 scripts/update_formula.py \
 | File | Role |
 |------|------|
 | `Formula/mnemodoc-server.rb` | Homebrew formula — downloads pre-built static binary per platform |
-| `scripts/update_formula.py` | CLI script called by CI to bump version + SHA256 in the formula |
+| `scripts/update_formula.py` | CLI script to bump version + SHA256 in the formula. Manual use only: CI runs its own copy, see below |
 | `.github/workflows/audit.yml` | CI — runs `brew audit --strict` on every push/PR |
 
-The auto-update flow lives in the **`mcp-server` repo** (not here), in `.github/workflows/release-tap.yml`. On each release it: downloads the 4 platform binaries, computes SHA256, then calls `scripts/update_formula.py` and opens a PR here.
+The auto-update flow lives in the **`mcp-server` repo** (not here), in `.github/workflows/release-tap.yml`. On each release it: downloads the 4 platform binaries, computes SHA256, then runs **its own** `scripts/update_formula.py` against this repository's formula and opens a PR here.
+
+That script is a copy of the one below, and it lives there on purpose: it runs in the same job as `TAP_GITHUB_TOKEN`, so it must be code the workflow's own repository reviews and versions. Executing this repository's copy would have made write access here enough to run arbitrary code alongside that token. The copy kept here stays valid for the manual command documented above; when one changes, port the change to the other.
 
 ## Formula details
 
