@@ -19,8 +19,15 @@ Currently contains one formula: `mnemodoc-server` — a Crystal MCP server that 
 
 ```bash
 # Audit formula style locally (requires Homebrew)
+# `brew tap <name> <path>` CLONES the checkout into
+# $(brew --repository mnemodoc/tap); it does not follow the working tree.
+# Uncommitted edits are invisible to the audit until copied over:
+#   cp Formula/mnemodoc-server.rb "$(brew --repository mnemodoc/tap)/Formula/"
 brew tap mnemodoc/tap "$(pwd)"
-brew audit --strict --except-cops=FormulaAudit/Homepage mnemodoc-server
+# Mandatory: Homebrew refuses to load formulae from an untrusted third-party
+# tap, and `brew audit` then silently audits nothing and exits 0.
+brew trust mnemodoc/tap
+brew audit --strict mnemodoc-server
 
 # Test the SHA update script with dummy values
 python3 scripts/update_formula.py \
@@ -51,13 +58,15 @@ The formula supports 4 platform targets via `on_macos`/`on_linux` + `on_arm`/`on
 
 Binary filenames from releases follow the pattern `mnemodoc-server-<platform>`. The `install` block renames the downloaded file to `mnemodoc-server`.
 
+**Never add a `version` line.** Homebrew scans the version from the `v<version>` release tag in the download URLs; declaring it as well makes `brew audit --strict` fail with `` `version X` is redundant with version scanned from URL `` (rule in Homebrew's `resource_auditor.rb`). That is why the URLs carry the literal version instead of interpolating `#{version}`, and why the version is duplicated across the four URLs — `scripts/update_formula.py` is what rewrites them.
+
 ## SHA update script
 
-`scripts/update_formula.py` uses regex to replace `version` and `sha256` values in-place. It matches sha256 lines by looking for the URL containing the platform slug immediately above them. If a platform slug is not found, the script exits with code 1.
+`scripts/update_formula.py` uses regex to replace the version and the `sha256` values in-place. The version is rewritten inside the `/releases/download/v<version>/` segment of every URL, not on a `version` line — the formula deliberately has none (see "Formula details"). It matches sha256 lines by looking for the URL containing the platform slug immediately above them. If no download URL is found, or a platform slug is missing, the script exits with code 1.
 
-## CI prerequisite
+## CI tap resolution
 
-The audit workflow taps the local checkout with `brew tap mnemodoc/tap "$(pwd)"` before auditing, so `brew audit` sees the formula without needing a GitHub push.
+The audit workflow has **no** tap step: `Homebrew/actions/setup-homebrew` attaches the checkout as the `mnemodoc/tap` tap by itself, so `brew audit --strict mnemodoc-server` resolves to `mnemodoc/tap/mnemodoc-server` from the checked-out branch, not from the pushed `master`. Do not add a `brew tap` step — locally it is needed, in CI it is not.
 
 ## Auto-update prerequisite
 

@@ -1,28 +1,27 @@
 class MnemodocServer < Formula
   desc "Crystal MCP server that indexes documentation via Ollama embeddings"
   homepage "https://github.com/mnemodoc/mcp-server"
-  version "1.0.0"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v#{version}/mnemodoc-server-darwin-arm64"
-      sha256 "29c7563f534d4f2a3f9a8e8659b6ac728f6a796e6a5732aac703ca2a61de6fb1"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.1.0/mnemodoc-server-darwin-arm64"
+      sha256 "4ea263602fde6663638b913116ed287d8a8744b5d4ec9b0ae62869f275581a5a"
     end
     on_intel do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v#{version}/mnemodoc-server-darwin-amd64"
-      sha256 "fd156367ed3ba7c89194dd62ceecb60295b5a77dbded2fb9cfd3998790fe21ce"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.1.0/mnemodoc-server-darwin-amd64"
+      sha256 "624eb59d0ded962f192531e941aaef34a66df747222c3d57d3c3b4044491260d"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v#{version}/mnemodoc-server-linux-arm64"
-      sha256 "8595a0f0d09956c2d43878cbbdb701cd83c94abce757fa4b2d12014203951f5b"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.1.0/mnemodoc-server-linux-arm64"
+      sha256 "a2d77bf0d389b87e409118660dbaa249f71ab2ac59ae9d4c2afdae90d77c1f03"
     end
     on_intel do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v#{version}/mnemodoc-server-linux-amd64"
-      sha256 "e25a474bab0b90344044e11ae3108c4b1778990b8cc7eff78c6f97bf89b46db3"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.1.0/mnemodoc-server-linux-amd64"
+      sha256 "60ca5b247331be07f4d2074d5566b3e7324f5344e3fa90e8b55de0d0b7d18579"
     end
   end
 
