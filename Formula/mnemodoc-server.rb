@@ -5,23 +5,23 @@ class MnemodocServer < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.0/mnemodoc-server-darwin-arm64"
-      sha256 "9e1425d46901585be295fee7ee409353a25f2c6ae497973c814b296b5df3bf67"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.1/mnemodoc-server-darwin-arm64"
+      sha256 "aad83febdaedb42178cc8adacd9158daf9008e808a2edaf78ba8e2b7bb348764"
     end
     on_intel do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.0/mnemodoc-server-darwin-amd64"
-      sha256 "56953310dedf7c8cfc26bd6f5d072fca0d3f8c9652d0a9ef21c47e6d055e1399"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.1/mnemodoc-server-darwin-amd64"
+      sha256 "2beade8c65f1ca52709bcbca3c370ce9fc3b0d40afec4ef31d932ebbed3523fd"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.0/mnemodoc-server-linux-arm64"
-      sha256 "979081a5fb66a076f6b5614eb09dc9f1dcb08c185f6c49c8cd5a1bff32a683f5"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.1/mnemodoc-server-linux-arm64"
+      sha256 "b42da9dec8268561a9f44f171c994d9979f80d9ca9dad504724ebba92f8b09be"
     end
     on_intel do
-      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.0/mnemodoc-server-linux-amd64"
-      sha256 "a5d0f8755c67b1e2bd56ee23d1c12d1346d9de4635ae3ab7ec281389e7667bd3"
+      url "https://github.com/mnemodoc/mcp-server/releases/download/v1.5.1/mnemodoc-server-linux-amd64"
+      sha256 "e4f0fe902b0da2132389cfea48426dd5acda507d7ad63d0e402a8c9d416316ec"
     end
   end
 
