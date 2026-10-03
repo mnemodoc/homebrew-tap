@@ -13,7 +13,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Homebrew tap for `mnemodoc` tools, hosted at `https://github.com/mnemodoc/homebrew-tap`.
 Lets users install tools with `brew install mnemodoc/tap/<formula>`.
 
-Currently contains one formula: `mnemodoc-server` — a Crystal MCP server that indexes documentation via Ollama embeddings.
+Currently contains two formulae, both shipping pre-built static binaries the same way:
+- `mnemodoc-server` — a Crystal MCP server that indexes documentation via Ollama embeddings (`mnemodoc/mcp-server`).
+- `mcpctl` — declares MCP servers once for Claude Code and Zed, secrets kept in the OS store (`mnemodoc/mcpctl`).
 
 ## Key commands
 
@@ -22,12 +24,12 @@ Currently contains one formula: `mnemodoc-server` — a Crystal MCP server that 
 # `brew tap <name> <path>` CLONES the checkout into
 # $(brew --repository mnemodoc/tap); it does not follow the working tree.
 # Uncommitted edits are invisible to the audit until copied over:
-#   cp Formula/mnemodoc-server.rb "$(brew --repository mnemodoc/tap)/Formula/"
+#   cp Formula/*.rb "$(brew --repository mnemodoc/tap)/Formula/"
 brew tap mnemodoc/tap "$(pwd)"
 # Mandatory: Homebrew refuses to load formulae from an untrusted third-party
 # tap, and `brew audit` then silently audits nothing and exits 0.
 brew trust mnemodoc/tap
-brew audit --strict mnemodoc-server
+brew audit --strict mnemodoc-server mcpctl
 
 # Test the SHA update script with dummy values
 python3 scripts/update_formula.py \
@@ -44,10 +46,11 @@ python3 scripts/update_formula.py \
 | File | Role |
 |------|------|
 | `Formula/mnemodoc-server.rb` | Homebrew formula — downloads pre-built static binary per platform |
+| `Formula/mcpctl.rb` | Same shape, for `mcpctl` |
 | `scripts/update_formula.py` | CLI script to bump version + SHA256 in the formula. Manual use only: CI runs its own copy, see below |
 | `.github/workflows/audit.yml` | CI — runs `brew audit --strict` on every push/PR |
 
-The auto-update flow lives in the **`mcp-server` repo** (not here), in `.github/workflows/release-tap.yml`. On each release it: downloads the 4 platform binaries, computes SHA256, then runs **its own** `scripts/update_formula.py` against this repository's formula and opens a PR here.
+The auto-update flow lives in **each tool's repo** (`mcp-server`, `mcpctl` — not here), in `.github/workflows/release-tap.yml`. On each release it: downloads the 4 platform binaries, computes SHA256, then runs **its own** `scripts/update_formula.py` against this repository's formula and opens a PR here.
 
 That script is a copy of the one below, and it lives there on purpose: it runs in the same job as `TAP_GITHUB_TOKEN`, so it must be code the workflow's own repository reviews and versions. Executing this repository's copy would have made write access here enough to run arbitrary code alongside that token. The copy kept here stays valid for the manual command documented above; when one changes, port the change to the other.
 
@@ -56,7 +59,7 @@ That script is a copy of the one below, and it lives there on purpose: it runs i
 The formula supports 4 platform targets via `on_macos`/`on_linux` + `on_arm`/`on_intel` blocks:
 - `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`
 
-Binary filenames from releases follow the pattern `mnemodoc-server-<platform>`. The `install` block renames the downloaded file to `mnemodoc-server`.
+Binary filenames from releases follow the pattern `<formula>-<platform>` (`mnemodoc-server-darwin-arm64`, `mcpctl-linux-amd64`). The `install` block renames the downloaded file to the formula name.
 
 **Never add a `version` line.** Homebrew scans the version from the `v<version>` release tag in the download URLs; declaring it as well makes `brew audit --strict` fail with `` `version X` is redundant with version scanned from URL `` (rule in Homebrew's `resource_auditor.rb`). That is why the URLs carry the literal version instead of interpolating `#{version}`, and why the version is duplicated across the four URLs — `scripts/update_formula.py` is what rewrites them.
 
@@ -70,4 +73,4 @@ The audit workflow has **no** tap step: `Homebrew/actions/setup-homebrew` attach
 
 ## Auto-update prerequisite
 
-A fine-grained PAT with Contents + Pull requests (read+write) on `mnemodoc/homebrew-tap` must be stored as secret `TAP_GITHUB_TOKEN` on `mnemodoc/mcp-server`.
+A fine-grained PAT with Contents + Pull requests (read+write) on `mnemodoc/homebrew-tap` must be stored as secret `TAP_GITHUB_TOKEN` on each tool's repository: `mnemodoc/mcp-server` and `mnemodoc/mcpctl`.

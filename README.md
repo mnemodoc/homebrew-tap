@@ -39,3 +39,4 @@ edited locally but not pushed stays invisible to the upgrade.
 | Formula | Description |
 |---------|-------------|
 | [`mnemodoc-server`](https://github.com/mnemodoc/mcp-server) | Crystal MCP server that indexes documentation via Ollama embeddings |
+| [`mcpctl`](https://github.com/mnemodoc/mcpctl) | Declare MCP servers once for Claude Code and Zed, secrets in the OS store |

@@ -16,4 +16,4 @@ jobs:
         uses: Homebrew/actions/setup-homebrew@main
 
       - name: Audit formula style
-        run: brew audit --strict mnemodoc-server
+        run: brew audit --strict mnemodoc-server mcpctl
