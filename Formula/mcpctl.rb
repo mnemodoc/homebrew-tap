@@ -5,23 +5,23 @@ class Mcpctl < Formula
 
   on_macos do
     on_arm do
-      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.0/mcpctl-darwin-arm64"
-      sha256 "2d0fc479fcdc702f46c1aeb6d9ce5f9a395a92342d77a1a7880602f0d8be922a"
+      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.1/mcpctl-darwin-arm64"
+      sha256 "0130bb22e5eb1b98ff4130ab57e6e685929f73add1d4f9e31e551aee91e8f0de"
     end
     on_intel do
-      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.0/mcpctl-darwin-amd64"
-      sha256 "ff7e2a3d31a2f0469425db51943af73e006b61c072269992342dc571d3039a27"
+      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.1/mcpctl-darwin-amd64"
+      sha256 "cb4ae263cea00b25d6b0c2078eb9a1c6c3ea872582ff6a6e2ff8cba7d015a12e"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.0/mcpctl-linux-arm64"
-      sha256 "15de4d55a08653227683cd72dc74b8ac9c67de36baacf205eefe4957ace2868b"
+      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.1/mcpctl-linux-arm64"
+      sha256 "cb5b10e3389714591927e7b9f2f8eaebb86d7307d21bfdfdaa7e59efad8f4eac"
     end
     on_intel do
-      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.0/mcpctl-linux-amd64"
-      sha256 "df027e8737bd84972284b95bff6586b53dc8f1b8a93343f9827ae9d7fbdfb89e"
+      url "https://github.com/mnemodoc/mcpctl/releases/download/v0.1.1/mcpctl-linux-amd64"
+      sha256 "141bcb68a9b7f3c5c6344900f9d1729e3da13be53b85eebf90ddf22018b0dbd9"
     end
   end
 
